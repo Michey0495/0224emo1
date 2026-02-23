@@ -1,0 +1,21 @@
+{
+  "name": "0224emo1",
+  "version": "1.0.0",
+  "description": "ブラウザ用AIチャットアプリ - 静岡セミナー完成版デモ",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "author": "Givery EZOAI 安田光喜",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.0",
+    "openai": "^4.77.0",
+    "dotenv": "^16.4.7",
+    "helmet": "^8.0.0",
+    "express-rate-limit": "^7.5.0",
+    "cors": "^2.8.5",
+    "sanitize-html": "^2.14.0"
+  }
+}

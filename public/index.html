@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>emo1 - AI Chat</title>
+  <meta name="description" content="ブラウザで動くAIチャットアプリ">
+
+  <!-- OGP -->
+  <meta property="og:title" content="emo1 - AI Chat">
+  <meta property="og:description" content="ブラウザで動くAIチャットアプリ">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ヘッダー -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <img src="assets/logo.svg" alt="emo1" class="header-logo" width="28" height="28">
+        <span class="header-title">emo1</span>
+      </div>
+      <button class="header-settings-btn" id="settings-btn" type="button" aria-label="設定を開く">
+        <span class="gear-icon"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- チャット表示エリア -->
+  <main class="chat-container" id="chat-container">
+    <!-- ウェルカム画面 -->
+    <div class="welcome" id="welcome">
+      <img src="assets/logo.svg" alt="emo1" class="welcome-logo" width="64" height="64">
+      <h1 class="welcome-title">emo1</h1>
+      <p class="welcome-subtitle">AIと対話を始めましょう</p>
+      <div class="welcome-cards">
+        <button class="welcome-card" data-prompt="静岡県のおすすめ観光スポットを教えて" type="button">
+          <span class="welcome-card-text">静岡県のおすすめ観光スポットを教えて</span>
+        </button>
+        <button class="welcome-card" data-prompt="Pythonで簡単なWebスクレイピングのコードを書いて" type="button">
+          <span class="welcome-card-text">Pythonで簡単なWebスクレイピングのコードを書いて</span>
+        </button>
+        <button class="welcome-card" data-prompt="効果的なプレゼンのコツを5つ教えて" type="button">
+          <span class="welcome-card-text">効果的なプレゼンのコツを5つ教えて</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- 入力エリア -->
+  <footer class="input-area">
+    <div class="input-area-inner">
+      <div class="input-wrapper">
+        <textarea
+          id="message-input"
+          class="message-input"
+          placeholder="メッセージを入力..."
+          rows="1"
+          maxlength="4000"
+        ></textarea>
+        <button class="send-btn" id="send-btn" type="button" disabled aria-label="送信">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 10L17 3L10 17L9 11L3 10Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+      <p class="input-hint">Enter で送信 / Shift+Enter で改行</p>
+    </div>
+  </footer>
+
+  <!-- 設定モーダル -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" role="dialog" aria-label="設定">
+      <div class="modal-header">
+        <h2 class="modal-title">設定</h2>
+        <button class="modal-close" id="modal-close" type="button" aria-label="閉じる">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="system-prompt">システムプロンプト</label>
+          <textarea
+            id="system-prompt"
+            class="form-textarea"
+            rows="4"
+            placeholder="AIの振る舞いを指定できます（例: あなたは親切なアシスタントです）"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="model-select">モデル</label>
+          <select id="model-select" class="form-select">
+            <option value="gpt-4o-mini" selected>gpt-4o-mini</option>
+            <option value="gpt-4o">gpt-4o</option>
+            <option value="gpt-4.1-mini">gpt-4.1-mini</option>
+            <option value="gpt-4.1">gpt-4.1</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button class="btn-danger" id="clear-chat" type="button">会話をクリア</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/app.js"></script>
+</body>
+</html>
