@@ -24,6 +24,9 @@ let dom = {}
 
 /** アプリ全体の初期化処理 */
 function initApp() {
+  // 利用確認画面の処理（チャット初期化より先に実行）
+  setupConsent()
+
   // DOM要素を取得してキャッシュ
   dom = {
     chatContainer: document.getElementById('chat-container'),
@@ -44,6 +47,46 @@ function initApp() {
   dom.chatContainer.appendChild(dom.messagesArea)
 
   setupEventListeners()
+}
+
+// ==========================================================
+// 利用確認画面
+// ==========================================================
+
+const CONSENT_KEY = 'emo1-consent-accepted'
+
+/** 利用確認画面の初期化 */
+function setupConsent() {
+  const overlay = document.getElementById('consent-overlay')
+  const btn = document.getElementById('consent-btn')
+  const privacyBtn = document.getElementById('open-privacy')
+  const privacyOverlay = document.getElementById('privacy-overlay')
+  const privacyClose = document.getElementById('privacy-close')
+
+  // 同意済みなら確認画面を非表示
+  if (localStorage.getItem(CONSENT_KEY) === 'true') {
+    overlay.classList.add('hidden')
+    return
+  }
+
+  // 同意ボタン
+  btn.addEventListener('click', () => {
+    localStorage.setItem(CONSENT_KEY, 'true')
+    overlay.classList.add('hidden')
+  })
+
+  // プライバシーポリシーの開閉
+  privacyBtn.addEventListener('click', () => {
+    privacyOverlay.classList.add('open')
+  })
+
+  privacyClose.addEventListener('click', () => {
+    privacyOverlay.classList.remove('open')
+  })
+
+  privacyOverlay.addEventListener('click', (e) => {
+    if (e.target === privacyOverlay) privacyOverlay.classList.remove('open')
+  })
 }
 
 /** イベントリスナーの一括登録 */
@@ -91,6 +134,16 @@ function setupEventListeners() {
 
   // 会話クリア
   dom.clearChat.addEventListener('click', clearConversation)
+
+  // 利用同意リセット
+  const resetConsent = document.getElementById('reset-consent')
+  if (resetConsent) {
+    resetConsent.addEventListener('click', () => {
+      localStorage.removeItem(CONSENT_KEY)
+      closeSettings()
+      document.getElementById('consent-overlay').classList.remove('hidden')
+    })
+  }
 
   // Escapeキーでモーダルを閉じる
   document.addEventListener('keydown', (e) => {

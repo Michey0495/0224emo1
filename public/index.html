@@ -102,6 +102,108 @@
         <div class="form-group">
           <button class="btn-danger" id="clear-chat" type="button">会話をクリア</button>
         </div>
+        <div class="form-group">
+          <button class="btn-danger" id="reset-consent" type="button">利用同意を取り消す</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 利用確認画面 -->
+  <div class="consent-overlay" id="consent-overlay">
+    <div class="consent-card">
+      <img src="assets/logo.svg" alt="emo1" width="40" height="40">
+      <h1 class="consent-title">emo1 へようこそ</h1>
+      <p class="consent-subtitle">ご利用前にデータの取り扱いについてご確認ください</p>
+
+      <div class="consent-items">
+        <div class="consent-item">
+          <h3 class="consent-item-title">入力内容はOpenAI APIへ送信されます</h3>
+          <p class="consent-item-text">あなたが入力したメッセージは、サーバーを経由してOpenAI社のAPIへ送信されます。サーバー側にメッセージの保存は行いませんが、OpenAI社のデータ取り扱いポリシーが適用されます。API経由の利用ではモデル学習には使用されません。</p>
+        </div>
+        <div class="consent-item">
+          <h3 class="consent-item-title">会話データはブラウザ内にのみ保持されます</h3>
+          <p class="consent-item-text">会話履歴はお使いのブラウザのメモリ上にのみ存在します。ページを閉じると自動的に消去されます。データベースへの保存やCookieによるトラッキングは一切行っていません。</p>
+        </div>
+        <div class="consent-item">
+          <h3 class="consent-item-title">レート制限を設けています</h3>
+          <p class="consent-item-text">同一IPアドレスから1分あたり20リクエストまでに制限しています。セミナー運営のため、過度な利用はご遠慮ください。</p>
+        </div>
+        <div class="consent-item consent-item-caution">
+          <h3 class="consent-item-title">入力時の注意事項</h3>
+          <p class="consent-item-text">業務内容の記載にあたり、個人情報（氏名・連絡先等）や機密情報（顧客名・契約金額等）の直接入力は避けてください。担当者名はイニシャルや部署名での記載を推奨します。</p>
+        </div>
+      </div>
+
+      <button class="consent-btn" id="consent-btn" type="button">理解した上で利用を開始する</button>
+      <p class="consent-footer-link">
+        <button type="button" class="consent-link" id="open-privacy">プライバシーポリシーを確認する</button>
+      </p>
+    </div>
+  </div>
+
+  <!-- プライバシーポリシーモーダル -->
+  <div class="modal-overlay" id="privacy-overlay">
+    <div class="modal privacy-modal" role="dialog" aria-label="プライバシーポリシー">
+      <div class="modal-header">
+        <h2 class="modal-title">プライバシーポリシー</h2>
+        <button class="modal-close" id="privacy-close" type="button" aria-label="閉じる">&times;</button>
+      </div>
+      <div class="modal-body privacy-body">
+        <p class="privacy-meta">最終更新日: 2026年2月24日 | Givery EZOAI 安田光喜</p>
+
+        <h3>1. 本アプリケーションについて</h3>
+        <p>emo1（以下「本アプリ」）は、2026年2月24日に静岡で開催される生成AI開発トレンド研修のデモンストレーション用に開発されたAIチャットアプリケーションです。教育目的で提供されており、商用サービスではありません。</p>
+
+        <h3>2. 収集する情報</h3>
+        <p>本アプリは以下の情報を処理します。</p>
+        <ul>
+          <li>チャット入力テキスト: AIへの送信のために一時的に処理されます</li>
+          <li>IPアドレス: レート制限の適用のためにサーバーが一時的に参照します（保存はしません）</li>
+          <li>同意状態: 利用同意の記録としてブラウザのlocalStorageに保存されます</li>
+        </ul>
+        <p>氏名、メールアドレス、アカウント情報等の個人を特定する情報は一切収集しません。</p>
+
+        <h3>3. データの送信先</h3>
+        <p>入力されたメッセージは、サーバー（Vercel上で稼働）を経由してOpenAI社のChat Completions APIに送信されます。OpenAI社のAPI利用ポリシーに基づき、API経由で送信されたデータはモデルの学習には使用されません。</p>
+        <p>参考: <a href="https://openai.com/policies/usage-policies" target="_blank" rel="noopener">OpenAI Usage Policies</a></p>
+
+        <h3>4. データの保存</h3>
+        <ul>
+          <li>サーバー側: メッセージの保存は行いません。リクエスト処理完了後にデータは破棄されます</li>
+          <li>ブラウザ側: 会話履歴はブラウザのメモリ上にのみ保持されます。ページを閉じると消去されます</li>
+          <li>localStorage: 利用同意の記録のみ保存されます。設定画面から削除できます</li>
+        </ul>
+
+        <h3>5. Cookie・トラッキング</h3>
+        <p>本アプリはCookieを使用しません。Google Analytics等のアクセス解析ツールも導入していません。外部のトラッキングスクリプトは一切読み込みません。</p>
+
+        <h3>6. セキュリティ対策</h3>
+        <ul>
+          <li>入力テキストのサニタイズ処理（HTMLタグの除去）</li>
+          <li>セキュリティヘッダーの付与（Helmet）</li>
+          <li>レート制限（1分あたり20リクエスト/IP）</li>
+          <li>HTTPS通信の強制（Vercelによる自動適用）</li>
+        </ul>
+
+        <h3>7. 第三者提供</h3>
+        <p>OpenAI APIへの送信を除き、入力データを第三者に提供することはありません。</p>
+
+        <h3>8. 利用者の権利</h3>
+        <ul>
+          <li>ブラウザを閉じることで、すべての会話データを即座に消去できます</li>
+          <li>設定画面の「会話をクリア」ボタンで会話履歴を手動削除できます</li>
+          <li>ブラウザのlocalStorageを削除することで、同意記録を取り消せます</li>
+        </ul>
+
+        <h3>9. 未成年者の利用</h3>
+        <p>本アプリの利用に年齢制限は設けていませんが、セミナー参加者を対象とした教材です。</p>
+
+        <h3>10. ポリシーの変更</h3>
+        <p>本ポリシーはセミナー開催に合わせて策定されたものです。変更がある場合は本ページ上で通知します。</p>
+
+        <h3>11. お問い合わせ</h3>
+        <p>本アプリのデータ取り扱いに関するご質問は、研修講師（Givery EZOAI 安田光喜）までお問い合わせください。</p>
       </div>
     </div>
   </div>
