@@ -5,10 +5,6 @@
 const OpenAI = require("openai");
 const sanitizeHtml = require("sanitize-html");
 
-// --- ストリーミング対応のため最大60秒に設定 ---
-export const config = {
-  maxDuration: 60,
-};
 
 // --- セミナーアシスタント用システムプロンプト ---
 const DEFAULT_SYSTEM_PROMPT = `あなたは「emo1」セミナーのアシスタントです。
@@ -54,7 +50,7 @@ function validateMessages(messages) {
 }
 
 // --- Vercel Serverless Function ハンドラ ---
-module.exports = async function handler(req, res) {
+async function handler(req, res) {
   // CORS ヘッダー
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -135,4 +131,8 @@ module.exports = async function handler(req, res) {
     );
     res.end();
   }
-};
+}
+
+// ストリーミング対応のため最大60秒に設定
+module.exports = handler;
+module.exports.config = { maxDuration: 60 };
